@@ -1,6 +1,5 @@
 ﻿# hevents
 # hevents-backend
 
-#COMPOSER INSTALL
-
-#PHP ARTISAN SERVE
+#composer install
+#php artisan serve

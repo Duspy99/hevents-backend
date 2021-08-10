@@ -28,4 +28,34 @@ class EventTypeController extends Controller
         return response()->json(['success' => 'Event type created'], 201);
     }
 
+    public function getAllEventTypes()
+    {
+        return EventType::all();
+    }
+
+    public function getAllEventType(Request $request)
+    {
+        return EventType::where('name',$request->id)->firstOrFail();
+    }
+
+    public function getObjectTypes()
+    {
+        return EventType::where('isObject',true)->get();
+    }
+
+    public function getObjectType(Request $request)
+    {
+        return EventType::where('isObject',true)->where('name',$request->id)->firstOrFail();
+    }
+
+    public function getEventTypes()
+    {
+        return EventType::where('isObject', '!=' , true)->orWhereNull('isObject')->get();
+    }
+
+    public function getEventType(Request $request)
+    {
+        return EventType::where('isObject','!=',true)->orWhereNull('isObject')->where('name',$request->id)->firstOrFail();
+    }
+
 }

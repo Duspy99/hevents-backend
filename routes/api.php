@@ -45,6 +45,9 @@ Route::get('events', [EventController::class, 'getEvents']);
 Route::get('events/{id}', [EventController::class, 'getEvent']);
 Route::get('events-in', [EventController::class, 'getEventsIn']);
 Route::get('events-out', [EventController::class, 'getEventsOut']);
+Route::get('all-event-types',[EventTypeController::class,'getAllEventTypes']);
+Route::get('event-types',[EventTypeController::class,'getEventTypes']);
+Route::get('object-types',[EventTypeController::class,'getObjectTypes']);
 
 
 ////////////////////////////////////////////////

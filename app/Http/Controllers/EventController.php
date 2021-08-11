@@ -10,21 +10,18 @@ class EventController extends Controller
 {
     public function postEvent(Request $request)
     {
-        $validate = $this->validate($request, [
-            'name' => 'required',
-            'description' => 'required',
-            'city_id' => 'required',
-            'county_id' => 'required',
-            'type_id' => 'required',
-            'object_id' => 'exists:objects,id'
-        ]);
-
         $event = new Event;
         $event->name = $request->name;
         $event->description = $request->description;
         
-        if($request->object_id)
+        if($request->isObject == true)
         {
+            $validate = $this->validate($request, [
+                'name' => 'required',
+                'description' => 'required',
+                'object_id' => 'exists:objects,id'
+            ]);
+
             $object = Object_::where('id',$request->object_id)->firstOrFail();
             $event->location = $object->location;
             $event->city_id = $object->city_id;
@@ -33,10 +30,17 @@ class EventController extends Controller
             $event->object_id = $request->object_id;
         }
         else{
+            $validate = $this->validate($request, [
+                'name' => 'required',
+                'description' => 'required',
+                'city_id' => 'required',
+                'county_id' => 'required',
+                'type_id' => 'required',
+            ]);
             $event->location = $request->location;
             $event->city_id = $request->city_id;
             $event->county_id = $request->county_id;
-            $event->object_id = $request->object_id;
+            $event->object_id = NULL;
             $event->type_id = $request->type_id;
         }
         

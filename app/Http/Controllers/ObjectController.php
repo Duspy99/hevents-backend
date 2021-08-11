@@ -22,6 +22,7 @@ class ObjectController extends Controller
         $object->city_id = $request->city_id;
         $object->county_id = $request->county_id;
         $object->type_id = $request->type_id;
+        $object->location = $request->location;
         $object->user_id = auth('api')->user()->id;
         $object->save();
 

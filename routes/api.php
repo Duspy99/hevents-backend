@@ -127,5 +127,6 @@ Route::middleware('moderator')->group(function () {
 Route::middleware('auth:api')->group(function () {
 
     Route::get('me', [UserController::class, 'getMe']);
+    Route::post('logout', [PassportAuthController::class, 'logout']);
 
 });

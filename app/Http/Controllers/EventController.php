@@ -61,7 +61,7 @@ class EventController extends Controller
         {
             $image = $request->file('image');
             $image_name = time() . '.' . $image->getClientOriginalName();
-            Storage::putFileAs('images',$image,$image_name);
+            Storage::putFileAs('public/images',$image,$image_name);
             $event->image_name = $image_name;
         }
       

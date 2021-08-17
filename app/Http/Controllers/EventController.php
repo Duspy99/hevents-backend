@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use App\Models\Object_;
+use Storage;
 
 class EventController extends Controller
 {
     public function postEvent(Request $request)
     {
         $event = new Event;
+        $event->user_id = auth('api')->user()->id;
         $event->name = $request->name;
         $event->description = $request->description;
         
@@ -19,7 +21,10 @@ class EventController extends Controller
             $validate = $this->validate($request, [
                 'name' => 'required',
                 'description' => 'required',
-                'object_id' => 'exists:objects,id'
+                'object_id' => 'exists:objects,id',
+                'date' => 'required',
+                'time' => 'required',
+                'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:5048',
             ]);
 
             $object = Object_::where('id',$request->object_id)->firstOrFail();
@@ -28,23 +33,39 @@ class EventController extends Controller
             $event->county_id = $object->county_id;
             $event->type_id = $object->type_id;
             $event->object_id = $request->object_id;
+            
         }
         else{
             $validate = $this->validate($request, [
                 'name' => 'required',
                 'description' => 'required',
-                'city_id' => 'required',
-                'county_id' => 'required',
-                'type_id' => 'required',
+                'city_id' => 'required|exists:cities,id',
+                'county_id' => 'required|exists:counties,id',
+                'type_id' => 'required|exists:event_types,id',
+                'date' => 'required',
+                'time' => 'required',
+                'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:5048',
             ]);
+
             $event->location = $request->location;
             $event->city_id = $request->city_id;
             $event->county_id = $request->county_id;
             $event->object_id = NULL;
             $event->type_id = $request->type_id;
         }
-        
-        $event->user_id = auth('api')->user()->id;
+
+        $event->date = $request->date;
+        $event->time = $request->time;
+
+        if($request->hasFile('image'))
+        {
+            $image = $request->file('image');
+            $image_name = time() . '.' . $image->getClientOriginalName();
+            Storage::putFileAs('images',$image,$image_name);
+            $event->image_name = $image_name;
+        }
+      
+
         $event->save();
 
         return response()->json(['success' => 'Event created'], 201);

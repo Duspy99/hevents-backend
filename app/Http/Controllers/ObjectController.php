@@ -12,9 +12,9 @@ class ObjectController extends Controller
     {
         $validate = $this->validate($request, [
             'name' => 'required',
-            'city_id' => 'required',
-            'county_id' => 'required',
-            'type_id' => 'required',
+            'city_id' => 'required|exists:cities,id',
+            'county_id' => 'required|exists:counties,id',
+            'type_id' => 'required|exists:event_types,id',
         ]);
 
         $object = new Object_;
@@ -66,9 +66,9 @@ class ObjectController extends Controller
 
             $validate = $this->validate($request, [
                 'name' => 'required',
-                'city_id' => 'required',
-                'county_id' => 'required',
-                'type_id' => 'required',
+                'city_id' => 'required|exists:cities,id',
+                'county_id' => 'required|exists:counties,id',
+                'type_id' => 'required|exists:event_types,id',
             ]);
             
             $object->update(['name' => $request->name]);

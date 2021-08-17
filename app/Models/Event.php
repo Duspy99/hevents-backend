@@ -18,6 +18,9 @@ class Event extends Model
         'county_id',
         'object_id',
         'user_id',
-        'type_id'
+        'type_id',
+        'image_name',
+        'date',
+        'time',
     ];
 }

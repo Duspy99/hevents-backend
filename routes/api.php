@@ -84,13 +84,6 @@ Route::middleware('admin')->group(function () {
 
     Route::post('event-type', [EventTypeController::class, 'postEventType']);
 
-    //work with objects
-
-
-    //work with events
-
-  
-
 });
 
 ////////////////////////////////////////////////
